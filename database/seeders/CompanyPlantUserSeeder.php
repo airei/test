@@ -19,6 +19,7 @@ class CompanyPlantUserSeeder extends Seeder
         // Create roles if not exists
         $adminRole = Role::firstOrCreate(['name' => 'admin']);
         $userRole = Role::firstOrCreate(['name' => 'user']);
+        $moderatorRole = Role::firstOrCreate(['name' => 'moderator']);
 
         // Create PT. Dana Abadi
         $danaAbadi = Company::create([
@@ -95,7 +96,7 @@ class CompanyPlantUserSeeder extends Seeder
         ]);
         $ayu->roles()->attach($userRole->id);
 
-        // Haroh - Dana Abadi Bandung
+        // Haroh - Dana Abadi Bandung (Moderator)
         $haroh = User::create([
             'name' => 'Haroh',
             'email' => 'haroh@danaabadi.com',
@@ -104,12 +105,14 @@ class CompanyPlantUserSeeder extends Seeder
             'plant_id' => $bandungPlant->id,
             'email_verified_at' => now(),
         ]);
-        $haroh->roles()->attach($userRole->id);
+        $haroh->roles()->attach($moderatorRole->id);
 
         $this->command->info('Companies, Plants, and Users seeded successfully!');
         $this->command->info('Companies created: PT. Dana Abadi, PT. Insi Sejahtera');
         $this->command->info('Plants created: Jakarta, Bandung, Bekasi');
         $this->command->info('Users created: Salman, Ayu, Haroh');
+        $this->command->info('Roles created: admin, user, moderator');
+        $this->command->info('User roles: Salman (user), Ayu (user), Haroh (moderator)');
         $this->command->info('All users password: password');
     }
 } 
