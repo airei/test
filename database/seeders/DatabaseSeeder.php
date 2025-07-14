@@ -13,9 +13,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Call UserSeeder
+        // Call Seeders
         $this->call([
             MedicareSeeder::class,
+            CompanyPlantUserSeeder::class,
         ]);
 
         // Uncomment line below if you want to create additional random users

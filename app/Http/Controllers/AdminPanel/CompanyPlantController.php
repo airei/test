@@ -172,14 +172,25 @@ class CompanyPlantController extends Controller
             'email' => 'nullable|email|max:255',
         ]);
 
-        $plant = Plant::create([
+        // Generate kode otomatis (3 digit, unik per company)
+        $lastPlant = \App\Models\Plant::where('company_id', $request->company_id)
+            ->orderBy('code', 'desc')
+            ->first();
+        $nextCode = '001';
+        if ($lastPlant && $lastPlant->code) {
+            $lastCode = (int) $lastPlant->code;
+            $nextCode = str_pad($lastCode + 1, 3, '0', STR_PAD_LEFT);
+        }
+
+        $plant = \App\Models\Plant::create([
             'company_id' => $request->company_id,
+            'code' => $nextCode,
             'name' => $request->name,
             'address' => $request->address,
             'phone' => $request->phone,
             'email' => $request->email,
             'is_active' => true,
-            'created_by' => Auth::id(),
+            'created_by' => \Auth::id(),
         ]);
 
         return redirect()->route('company-plant')->with('success', 'Plant berhasil ditambahkan.');
