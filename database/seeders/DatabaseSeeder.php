@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
         // Call Seeders
         $this->call([
             MedicareSeeder::class,
-            CompanyPlantUserSeeder::class,
+            CompanyPlantSeeder::class,
         ]);
 
         // Uncomment line below if you want to create additional random users
