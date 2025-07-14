@@ -91,7 +91,17 @@ class CompanyPlantController extends Controller
             'email' => 'nullable|email|max:255',
         ]);
 
+        // Generate kode otomatis (3 digit)
+        $lastCompany = Company::orderBy('code', 'desc')->first();
+        $nextCode = '001';
+        
+        if ($lastCompany && $lastCompany->code) {
+            $lastCode = (int) $lastCompany->code;
+            $nextCode = str_pad($lastCode + 1, 3, '0', STR_PAD_LEFT);
+        }
+
         $company = Company::create([
+            'code' => $nextCode,
             'name' => $request->name,
             'address' => $request->address,
             'phone' => $request->phone,
